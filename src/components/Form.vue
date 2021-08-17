@@ -1,5 +1,5 @@
 <template>
-  <form id="employee-data" onsubmit="event.preventDefault();onFormSubmit();">
+  <form id="employee-data" v-on:submit.prevent="formSubmit()">
     <div class="row mb-3">
       <label for="first-name" class="col-sm-3 col-form-label">
         First Name
@@ -9,6 +9,7 @@
       </label>
       <div class="col-sm-5">
         <input
+          v-model="fname"
           type="text"
           class="form-control"
           id="first-name"
@@ -114,6 +115,23 @@
 <script>
 export default {
   name: "Form",
+  el: "#employee-data",
+  data() {
+    return {
+      fName: "",
+      lastName: "",
+      email: "",
+      gender: "",
+      birthdate: "",
+      picture: "",
+    };
+  },
+  methods: {
+    formSubmit() {
+      this.fName = this.firstName;
+      console.log(this.firstName);
+    },
+  },
 };
 </script>
 
