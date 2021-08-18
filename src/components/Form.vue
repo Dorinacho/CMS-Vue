@@ -117,6 +117,8 @@
 </template>
 
 <script>
+import db from "../firebaseInit";
+
 export default {
   name: "Form",
   data() {
@@ -130,7 +132,7 @@ export default {
     };
   },
   methods: {
-    formSubmit() {
+    async formSubmit() {
       var employee = {
         firstName: this.firstName,
         lastName: this.lastName,
@@ -145,6 +147,12 @@ export default {
       this.gender = "";
       this.birthdate = "";
       console.log(employee);
+
+      await db
+        .collection("employees")
+        .doc(employee.email)
+        .set(employee);
+
       return employee;
     },
   },
