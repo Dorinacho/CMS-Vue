@@ -121,6 +121,7 @@ import db from "../firebaseInit";
 
 export default {
   name: "Form",
+
   data() {
     return {
       firstName: "",
@@ -139,6 +140,7 @@ export default {
         email: this.email,
         gender: this.gender,
         birthdate: this.birthdate,
+        picture: this.picture,
       };
       //reset the form
       this.firstName = "";
@@ -153,7 +155,7 @@ export default {
         .doc(employee.email)
         .set(employee);
 
-      return employee;
+      //return employee;
     },
   },
 };
