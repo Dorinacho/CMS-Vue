@@ -9,7 +9,7 @@
       </label>
       <div class="col-sm-5">
         <input
-          v-model="fname"
+          v-model.trim="firstName"
           type="text"
           class="form-control"
           id="first-name"
@@ -29,6 +29,7 @@
       </label>
       <div class="col-sm-5">
         <input
+          v-model.trim="lastName"
           type="text"
           class="form-control"
           id="last-name"
@@ -48,6 +49,7 @@
       </label>
       <div class="col-sm-5">
         <input
+          v-model.trim="email"
           type="email"
           class="form-control"
           id="email"
@@ -65,6 +67,7 @@
       </label>
       <div class="col-sm-5">
         <select
+          v-model="gender"
           class="form-select"
           id="gender-selector"
           aria-label="Default select example"
@@ -85,6 +88,7 @@
         </abbr>
       </label>
       <input
+        v-model="birthdate"
         type="date"
         class="col-sm-4"
         id="birthdate"
@@ -115,10 +119,9 @@
 <script>
 export default {
   name: "Form",
-  el: "#employee-data",
   data() {
     return {
-      fName: "",
+      firstName: "",
       lastName: "",
       email: "",
       gender: "",
@@ -128,8 +131,21 @@ export default {
   },
   methods: {
     formSubmit() {
-      this.fName = this.firstName;
-      console.log(this.firstName);
+      var employee = {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        gender: this.gender,
+        birthdate: this.birthdate,
+      };
+      //reset the form
+      this.firstName = "";
+      this.lastName = "";
+      this.email = "";
+      this.gender = "";
+      this.birthdate = "";
+      console.log(employee);
+      return employee;
     },
   },
 };
