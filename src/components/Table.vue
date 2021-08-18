@@ -52,6 +52,8 @@
 <script>
 // import TableRow from "./TableRow.vue";
 import db from "../firebaseInit";
+import firebase from "firebase";
+const moment = require("moment");
 export default {
   // components: { TableRow },
   name: "Table",
@@ -60,12 +62,7 @@ export default {
       employees: [],
     };
   },
-  computed: {
-    decodePicture(picture) {
-      var decoded = atob(picture);
-      return decoded;
-    },
-  },
+  computed: {},
   methods: {},
   created() {
     // getEmployeesData() {
@@ -79,9 +76,23 @@ export default {
             lastName: doc.data().lastName,
             email: doc.data().email,
             gender: doc.data().gender,
-            birthdate: doc.data().birthdate,
+            birthdate: moment(doc.data().birthdate).format("D MMMM YYYY"),
             picture: doc.data().picture,
           };
+          if (employeeData.picture === "") {
+            firebase
+              .storage()
+              .refFromURL("gs://cms-javascript.appspot.com/user.png")
+              .getDownloadURL()
+              .then((url) => {
+                // Or inserted into an <img> element
+                employeeData.picture = url;
+              })
+              .catch((error) => {
+                alert(error);
+              });
+          }
+
           this.employees.push(employeeData);
         });
       })
