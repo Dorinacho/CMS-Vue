@@ -102,7 +102,7 @@
       </label>
       <file-input
         v-model="picture"
-        v-on:change="convertPicture()"
+        v-on:change="convertPicture"
         is-image
         type="file"
         class="col-sm-4"
@@ -142,95 +142,57 @@ export default {
       gender: "",
       birthdate: "",
       picture: "",
-      image: "",
+      // image: "",
     };
   },
   methods: {
-    // onFileChange(e) {
-    //   var files = e.target.files || e.dataTransfer.files;
-    //   if (!files.length) return;
-    //   this.createImage(files[0]);
-    // },
-    // createImage(file) {
-    //   // var image = new Image();
-    //   var reader = new FileReader();
-    //   var vm = this;
-
-    //   reader.onload = (e) => {
-    //     vm.image = e.target.result;
-    //   };
-    //   reader.readAsDataURL(file);
-    // },
     convertPicture() {
       if (this.picture != null) {
-        // console.log(this.fileBlob);
-        // if (this.picture != null) {
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.image = e.target.result;
-        };
-        reader.readAsDataURL(this.picture);
+        try {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.picture = e.target.result;
+          };
+          reader.readAsDataURL(this.picture.file);
+        } catch (error) {
+          alert("Error ", error);
+        }
       } else {
         firebase
           .storage()
           .refFromURL("gs://cms-javascript.appspot.com/user.png")
           .getDownloadURL()
           .then((url) => {
-            // Or inserted into an <img> element
-            this.image = url;
+            this.picture = url;
           })
           .catch((error) => {
             alert(error);
           });
       }
-
-      //return res;
-      // }
     },
-  },
+    async formSubmit() {
+      var employee = {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        gender: this.gender,
+        birthdate: this.birthdate,
+        picture: this.picture,
+      };
+      //console.log(employee.picture);
+      //reset the form
+      this.firstName = "";
+      this.lastName = "";
+      this.email = "";
+      this.gender = "";
+      this.birthdate = "";
+      this.picture = "";
 
-  //     await firebase
-  //       .storage()
-  //       .refFromURL("gs://cms-javascript.appspot.com/user.png")
-  //       .getDownloadURL()
-  //       .then((url) => {
-  //         // Or inserted into an <img> element
-  //         res = url;
-  //         return res;
-  //       })
-  //       .catch((error) => {
-  //         alert(error);
-  //       });
-  //   }
-  // },
-  async formSubmit() {
-    // var image;
-
-    var employee = {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      email: this.email,
-      gender: this.gender,
-      birthdate: this.birthdate,
-      picture: this.image,
-    };
-    console.log(employee.picture);
-    //reset the form
-    this.firstName = "";
-    this.lastName = "";
-    this.email = "";
-    this.gender = "";
-    this.birthdate = "";
-    this.picture = "";
-    // console.log(employee);
-
-    await db
-      .collection("employees")
-      .doc(employee.email)
-      .set(employee);
-
-    //return employee;
+      await db
+        .collection("employees")
+        .doc(employee.email)
+        .set(employee);
+    },
   },
 };
 </script>

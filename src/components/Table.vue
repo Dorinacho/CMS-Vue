@@ -70,17 +70,6 @@ export default {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          // firebase
-          //     .storage()
-          //     .refFromURL("gs://cms-javascript.appspot.com/user.png")
-          //     .getDownloadURL()
-          //     .then((url) => {
-          //       // Or inserted into an <img> element
-          //       var defaultPicture = url;
-          //     })
-          //     .catch((error) => {
-          //       alert(error);
-          //     });
           const employeeData = {
             id: doc.id,
             firstName: doc.data().firstName,
