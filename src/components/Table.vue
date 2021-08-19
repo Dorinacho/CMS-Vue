@@ -28,7 +28,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="employee in employees" v-bind:key="employee.id">
+      <tr
+        v-for="employee in employees"
+        v-bind:key="employee.id"
+        v-bind:id="employee.id"
+      >
         <td>
           <img v-bind:src="employee.picture" />
         </td>
@@ -44,9 +48,7 @@
             v-bind:id="employee.id"
             v-on:click="employees.splice(0, employee.id)"
           ></delete-employee>
-          <button type="button" class="btn btn-primary btn-extra">
-            Edit
-          </button>
+          <edit-employee v-bind:id="employee.id"></edit-employee>
         </td>
       </tr>
     </tbody>
@@ -56,10 +58,11 @@
 <script>
 import db from "../firebaseInit";
 import DeleteEmployee from "./employee/DeleteEmployee.vue";
+import EditEmployee from "./employee/EditEmployee.vue";
 
 const moment = require("moment");
 export default {
-  components: { DeleteEmployee },
+  components: { DeleteEmployee, EditEmployee },
 
   name: "Table",
   data() {
@@ -67,7 +70,17 @@ export default {
       employees: [],
     };
   },
-  computed: {},
+  computed: {
+    // getEmployees() {
+    //   for (const key in localStorage) {
+    //     //  console.log(`${key}: ${localStorage.getItem(key)}`);
+    //     var y = JSON.parse(localStorage.getItem(key));
+    //     this.employees.push(y);
+    //   }
+    //   console.log(this.employees);
+    //   return this.employees;
+    // },
+  },
   methods: {},
   created() {
     // getEmployeesData() {
@@ -84,19 +97,17 @@ export default {
             birthdate: moment(doc.data().birthdate).format("D MMMM YYYY"),
             picture: doc.data().picture,
           };
-          // if (employeeData.picture != null) {
-
-          // }
-
+          // localStorage.setItem(
+          //   employeeData.email,
+          //   JSON.stringify(employeeData)
           this.employees.push(employeeData);
+          // );
         });
       })
 
       .catch((error) => {
         alert("Error getting employees ", error);
       });
-    console.log(this.employees);
-    // };
   },
 };
 </script>

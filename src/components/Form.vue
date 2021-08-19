@@ -150,12 +150,12 @@ export default {
         .then((url) => {
           // Or inserted into an <img> element
           this.picture = url;
-          console.log(this.picture);
+          // console.log(this.picture);
         })
         .catch((error) => {
           alert(error);
         }),
-      // image: "",
+      // employees: [],
     };
   },
   watch: {},
@@ -192,6 +192,9 @@ export default {
       this.gender = "";
       this.birthdate = "";
       this.picture = "";
+      // this.employees.push(employee);
+      // console.log(this.employees);
+      localStorage.setItem(employee.email, JSON.stringify(employee));
 
       await db
         .collection("employees")
