@@ -29,7 +29,7 @@
     </thead>
     <tbody>
       <tr
-        v-for="employee in employees"
+        v-for="employee in employeesArray"
         v-bind:key="employee.id"
         v-bind:id="employee.id"
       >
@@ -46,7 +46,7 @@
           </button> -->
           <delete-employee
             v-bind:id="employee.id"
-            v-on:click="employees.splice(0, employee.id)"
+            v-on:click="employeesArray.splice(0, employee.id)"
           ></delete-employee>
           <edit-employee v-bind:id="employee.id"></edit-employee>
         </td>
@@ -67,9 +67,10 @@ export default {
   name: "Table",
   data() {
     return {
-      employees: [],
+      // employees: [],
     };
   },
+  inject: ["employeesArray"],
   computed: {
     // getEmployees() {
     //   for (const key in localStorage) {
@@ -100,14 +101,14 @@ export default {
           // localStorage.setItem(
           //   employeeData.email,
           //   JSON.stringify(employeeData)
-          this.employees.push(employeeData);
+          this.employeesArray.push(employeeData);
           // );
         });
       })
-
       .catch((error) => {
         alert("Error getting employees ", error);
       });
+    console.log(this.employeesArray);
   },
 };
 </script>

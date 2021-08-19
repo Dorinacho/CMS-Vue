@@ -122,18 +122,26 @@
                 Edit employee
             </button> -->
   </form>
+  <Table />
 </template>
 
 <script>
 import db from "../firebaseInit";
 import firebase from "firebase";
-
+// import Table from "./components/Table.vue";
 import FileInput from "vue3-simple-file-input";
-
+import Table from "./Table.vue";
+const moment = require("moment");
 export default {
   name: "Form",
   components: {
     FileInput,
+    Table,
+  },
+  provide() {
+    return {
+      employeesArray: this.employees,
+    };
   },
   data() {
     return {
@@ -155,7 +163,7 @@ export default {
         .catch((error) => {
           alert(error);
         }),
-      // employees: [],
+      employees: [],
     };
   },
   watch: {},
@@ -185,6 +193,9 @@ export default {
         picture: this.picture,
       };
       console.log(employee.picture);
+      this.birthdate = moment(employee.birthdate).format("D MMMM YYYY");
+      this.employees.push(employee);
+      console.log(this.employees);
       //reset the form
       this.firstName = "";
       this.lastName = "";
@@ -192,9 +203,8 @@ export default {
       this.gender = "";
       this.birthdate = "";
       this.picture = "";
-      // this.employees.push(employee);
-      // console.log(this.employees);
-      localStorage.setItem(employee.email, JSON.stringify(employee));
+
+      // localStorage.setItem(employee.email, JSON.stringify(employee));
 
       await db
         .collection("employees")

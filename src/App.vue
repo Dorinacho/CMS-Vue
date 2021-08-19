@@ -2,21 +2,20 @@
   <div id="container">
     <Form />
     <Filters />
-    <Table />
+    <!-- <Table /> -->
   </div>
 </template>
 
 <script>
 import Form from "./components/Form.vue";
 import Filters from "./components/Filters.vue";
-import Table from "./components/Table.vue";
+// import Table from "./components/Table.vue";
 
 export default {
   name: "App",
   components: {
     Form,
     Filters,
-    Table,
   },
 };
 </script>
