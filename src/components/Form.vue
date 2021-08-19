@@ -1,3 +1,4 @@
+@@ -1,239 +1,246 @@
 <template>
   <form id="employee-data" v-on:submit.prevent="formSubmit()">
     <div class="row mb-3">
@@ -146,7 +147,8 @@ export default {
     };
   },
   methods: {
-    convertPicture() {
+    async convertPicture() {
+      // var image;
       if (this.picture != null) {
         try {
           const reader = new FileReader();
@@ -158,17 +160,20 @@ export default {
           alert("Error ", error);
         }
       } else {
-        firebase
+        await firebase
           .storage()
-          .refFromURL("gs://cms-javascript.appspot.com/user.png")
+          .ref()
+          .child("user.png")
           .getDownloadURL()
           .then((url) => {
+            // Or inserted into an <img> element
             this.picture = url;
           })
           .catch((error) => {
             alert(error);
           });
       }
+      // console.log(this.picture);
     },
     async formSubmit() {
       var employee = {
@@ -229,6 +234,7 @@ input:invalid {
 }
 
 #picture-upload {
+  margin-left: 35px;
   /* margin-left: 35px; */
   display: flex;
   justify-content: center;
