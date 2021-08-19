@@ -103,7 +103,7 @@
       </label>
       <file-input
         v-model="picture"
-        v-on:change="convertPicture"
+        v-on:change="convertPicture()"
         is-image
         type="file"
         class="col-sm-4"
@@ -142,12 +142,26 @@ export default {
       email: "",
       gender: "",
       birthdate: "",
-      picture: "",
+      picture: firebase
+        .storage()
+        .ref()
+        .child("user.png")
+        .getDownloadURL()
+        .then((url) => {
+          // Or inserted into an <img> element
+          this.picture = url;
+          console.log(this.picture);
+        })
+        .catch((error) => {
+          alert(error);
+        }),
       // image: "",
     };
   },
+  watch: {},
+
   methods: {
-    async convertPicture() {
+    convertPicture() {
       // var image;
       if (this.picture != null) {
         try {
@@ -157,23 +171,9 @@ export default {
           };
           reader.readAsDataURL(this.picture.file);
         } catch (error) {
-          alert("Error ", error);
+          alert("Error firebase ", error);
         }
-      } else {
-        await firebase
-          .storage()
-          .ref()
-          .child("user.png")
-          .getDownloadURL()
-          .then((url) => {
-            // Or inserted into an <img> element
-            this.picture = url;
-          })
-          .catch((error) => {
-            alert(error);
-          });
       }
-      // console.log(this.picture);
     },
     async formSubmit() {
       var employee = {
@@ -184,7 +184,7 @@ export default {
         birthdate: this.birthdate,
         picture: this.picture,
       };
-      //console.log(employee.picture);
+      console.log(employee.picture);
       //reset the form
       this.firstName = "";
       this.lastName = "";
