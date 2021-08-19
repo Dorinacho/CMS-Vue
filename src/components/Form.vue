@@ -100,7 +100,14 @@
       <label for="picture-upload" class="col-sm-2 col-form-label">
         Picture
       </label>
-      <input type="file" class="col-sm-4" id="picture-upload" />
+      <file-input
+        v-model="picture"
+        v-on:change="convertPicture()"
+        is-image
+        type="file"
+        class="col-sm-4"
+        id="picture-upload"
+      />
     </div>
     <button
       type="submit"
@@ -118,10 +125,15 @@
 
 <script>
 import db from "../firebaseInit";
+import firebase from "firebase";
+
+import FileInput from "vue3-simple-file-input";
 
 export default {
   name: "Form",
-
+  components: {
+    FileInput,
+  },
   data() {
     return {
       firstName: "",
@@ -130,33 +142,95 @@ export default {
       gender: "",
       birthdate: "",
       picture: "",
+      image: "",
     };
   },
   methods: {
-    async formSubmit() {
-      var employee = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        gender: this.gender,
-        birthdate: this.birthdate,
-        picture: this.picture,
-      };
-      //reset the form
-      this.firstName = "";
-      this.lastName = "";
-      this.email = "";
-      this.gender = "";
-      this.birthdate = "";
-      console.log(employee);
+    // onFileChange(e) {
+    //   var files = e.target.files || e.dataTransfer.files;
+    //   if (!files.length) return;
+    //   this.createImage(files[0]);
+    // },
+    // createImage(file) {
+    //   // var image = new Image();
+    //   var reader = new FileReader();
+    //   var vm = this;
 
-      await db
-        .collection("employees")
-        .doc(employee.email)
-        .set(employee);
+    //   reader.onload = (e) => {
+    //     vm.image = e.target.result;
+    //   };
+    //   reader.readAsDataURL(file);
+    // },
+    convertPicture() {
+      if (this.picture != null) {
+        // console.log(this.fileBlob);
+        // if (this.picture != null) {
 
-      //return employee;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.image = e.target.result;
+        };
+        reader.readAsDataURL(this.picture);
+      } else {
+        firebase
+          .storage()
+          .refFromURL("gs://cms-javascript.appspot.com/user.png")
+          .getDownloadURL()
+          .then((url) => {
+            // Or inserted into an <img> element
+            this.image = url;
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      }
+
+      //return res;
+      // }
     },
+  },
+
+  //     await firebase
+  //       .storage()
+  //       .refFromURL("gs://cms-javascript.appspot.com/user.png")
+  //       .getDownloadURL()
+  //       .then((url) => {
+  //         // Or inserted into an <img> element
+  //         res = url;
+  //         return res;
+  //       })
+  //       .catch((error) => {
+  //         alert(error);
+  //       });
+  //   }
+  // },
+  async formSubmit() {
+    // var image;
+
+    var employee = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      gender: this.gender,
+      birthdate: this.birthdate,
+      picture: this.image,
+    };
+    console.log(employee.picture);
+    //reset the form
+    this.firstName = "";
+    this.lastName = "";
+    this.email = "";
+    this.gender = "";
+    this.birthdate = "";
+    this.picture = "";
+    // console.log(employee);
+
+    await db
+      .collection("employees")
+      .doc(employee.email)
+      .set(employee);
+
+    //return employee;
   },
 };
 </script>

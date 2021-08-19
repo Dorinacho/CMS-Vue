@@ -37,7 +37,7 @@
         <td>{{ employee.gender }}</td>
         <td>{{ employee.birthdate }}</td>
         <td>
-          <button class="btn btn-danger btn-extra">
+          <button type="button" class="btn btn-danger btn-extra">
             Delete
           </button>
           <button type="button" class="btn btn-primary btn-extra">
@@ -52,7 +52,7 @@
 <script>
 // import TableRow from "./TableRow.vue";
 import db from "../firebaseInit";
-import firebase from "firebase";
+// import firebase from "firebase";
 const moment = require("moment");
 export default {
   // components: { TableRow },
@@ -70,6 +70,17 @@ export default {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
+          // firebase
+          //     .storage()
+          //     .refFromURL("gs://cms-javascript.appspot.com/user.png")
+          //     .getDownloadURL()
+          //     .then((url) => {
+          //       // Or inserted into an <img> element
+          //       var defaultPicture = url;
+          //     })
+          //     .catch((error) => {
+          //       alert(error);
+          //     });
           const employeeData = {
             id: doc.id,
             firstName: doc.data().firstName,
@@ -79,19 +90,9 @@ export default {
             birthdate: moment(doc.data().birthdate).format("D MMMM YYYY"),
             picture: doc.data().picture,
           };
-          if (employeeData.picture === "") {
-            firebase
-              .storage()
-              .refFromURL("gs://cms-javascript.appspot.com/user.png")
-              .getDownloadURL()
-              .then((url) => {
-                // Or inserted into an <img> element
-                employeeData.picture = url;
-              })
-              .catch((error) => {
-                alert(error);
-              });
-          }
+          // if (employeeData.picture != null) {
+
+          // }
 
           this.employees.push(employeeData);
         });
