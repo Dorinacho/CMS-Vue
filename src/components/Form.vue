@@ -229,7 +229,14 @@ input:invalid {
 }
 
 #picture-upload {
-  margin-left: 35px;
+  /* margin-left: 35px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#picture-upload:nth-child(2) {
+  width: 45%;
 }
 
 button {

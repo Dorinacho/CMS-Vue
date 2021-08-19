@@ -37,9 +37,13 @@
         <td>{{ employee.gender }}</td>
         <td>{{ employee.birthdate }}</td>
         <td>
-          <button type="button" class="btn btn-danger btn-extra">
+          <!-- <button type="button" class="btn btn-danger btn-extra">
             Delete
-          </button>
+          </button> -->
+          <delete-employee
+            v-bind:id="employee.id"
+            v-on:click="employees.splice(0, employee.id)"
+          ></delete-employee>
           <button type="button" class="btn btn-primary btn-extra">
             Edit
           </button>
@@ -50,12 +54,13 @@
 </template>
 
 <script>
-// import TableRow from "./TableRow.vue";
 import db from "../firebaseInit";
-// import firebase from "firebase";
+import DeleteEmployee from "./employee/DeleteEmployee.vue";
+
 const moment = require("moment");
 export default {
-  // components: { TableRow },
+  components: { DeleteEmployee },
+
   name: "Table",
   data() {
     return {
@@ -125,6 +130,7 @@ img {
   min-height: 50px;
   border-radius: 50%;
 }
+
 button {
   margin: 10px;
 }
