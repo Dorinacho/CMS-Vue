@@ -88,8 +88,8 @@ export default {
       db.collection("employees")
         .doc(id)
         .delete();
-
-      this.employees.splice(id, 1);
+      var employeeIndex = this.employees.find((x) => x.id === id);
+      this.employees.splice(this.employees.indexOf(employeeIndex), 1);
     },
   },
   created() {
@@ -112,7 +112,7 @@ export default {
       .catch((error) => {
         alert("Error getting employees ", error);
       });
-    // console.log(this.employeesArray);
+    console.log(this.employees);
   },
 };
 </script>
