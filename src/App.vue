@@ -1,21 +1,17 @@
 <template>
   <div id="container">
-    <Form />
-    <Filters />
-    <!-- <Table /> -->
+    <!-- <EmployeeTable /> -->
   </div>
+  <router-view></router-view>
 </template>
 
 <script>
-import Form from "./components/Form.vue";
-import Filters from "./components/Filters.vue";
-// import Table from "./components/Table.vue";
+// import EmployeeTable from "./components/EmployeeTable.vue";
 
 export default {
   name: "App",
   components: {
-    Form,
-    Filters,
+    // EmployeeTable,
   },
 };
 </script>

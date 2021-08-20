@@ -1,4 +1,7 @@
 <template>
+  <button v-on:click="goToAddEmployees()" class="btn btn-primary">
+    Add employee
+  </button>
   <table class="table table-striped table-hover" id="employee-table">
     <thead>
       <tr id="table-head">
@@ -29,9 +32,9 @@
     </thead>
     <tbody>
       <tr
-        v-for="employee in employeesArray"
+        v-for="employee in employees"
         v-bind:key="employee.id"
-        v-bind:id="employee.id"
+        v-bind:employees="employees"
       >
         <td>
           <img v-bind:src="employee.picture" />
@@ -41,14 +44,20 @@
         <td>{{ employee.gender }}</td>
         <td>{{ employee.birthdate }}</td>
         <td>
-          <!-- <button type="button" class="btn btn-danger btn-extra">
+          <button
+            v-on:click="deleteEmployee(employee.id)"
+            type="button"
+            class="btn btn-danger btn-extra"
+          >
             Delete
-          </button> -->
-          <delete-employee
+          </button>
+          <!-- <delete-employee
             v-bind:id="employee.id"
             v-on:click="employeesArray.splice(0, employee.id)"
-          ></delete-employee>
-          <edit-employee v-bind:id="employee.id"></edit-employee>
+          ></delete-employee> -->
+          <button type="button" class="btn btn-primary btn-extra">
+            Edit
+          </button>
         </td>
       </tr>
     </tbody>
@@ -57,34 +66,33 @@
 
 <script>
 import db from "../firebaseInit";
-import DeleteEmployee from "./employee/DeleteEmployee.vue";
-import EditEmployee from "./employee/EditEmployee.vue";
 
 const moment = require("moment");
 export default {
-  components: { DeleteEmployee, EditEmployee },
+  components: {},
 
   name: "Table",
   data() {
     return {
-      // employees: [],
+      employees: [],
     };
   },
-  inject: ["employeesArray"],
-  computed: {
-    // getEmployees() {
-    //   for (const key in localStorage) {
-    //     //  console.log(`${key}: ${localStorage.getItem(key)}`);
-    //     var y = JSON.parse(localStorage.getItem(key));
-    //     this.employees.push(y);
-    //   }
-    //   console.log(this.employees);
-    //   return this.employees;
-    // },
+  // inject: ["employeesArray"],
+  computed: {},
+  methods: {
+    goToAddEmployees() {
+      this.$router.push("/add");
+    },
+    deleteEmployee(id) {
+      console.log(id);
+      db.collection("employees")
+        .doc(id)
+        .delete();
+
+      this.employees.splice(id, 1);
+    },
   },
-  methods: {},
   created() {
-    // getEmployeesData() {
     db.collection("employees")
       .get()
       .then((querySnapshot) => {
@@ -98,17 +106,13 @@ export default {
             birthdate: moment(doc.data().birthdate).format("D MMMM YYYY"),
             picture: doc.data().picture,
           };
-          // localStorage.setItem(
-          //   employeeData.email,
-          //   JSON.stringify(employeeData)
-          this.employeesArray.push(employeeData);
-          // );
+          this.employees.push(employeeData);
         });
       })
       .catch((error) => {
         alert("Error getting employees ", error);
       });
-    console.log(this.employeesArray);
+    // console.log(this.employeesArray);
   },
 };
 </script>

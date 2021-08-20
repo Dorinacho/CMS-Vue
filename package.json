@@ -16,6 +16,8 @@
         "vue": "^3.2.4",
         "vue-cli": "^2.9.6",
         "vue-moment": "^4.1.0",
+        "vue-router": "^4.0.11",
+        "vue-upload-drop-images": "^1.0.7",
         "vue3-simple-file-input": "^1.0.3"
     },
     "devDependencies": {

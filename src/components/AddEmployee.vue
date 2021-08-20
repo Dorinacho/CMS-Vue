@@ -1,4 +1,3 @@
-@@ -1,239 +1,246 @@
 <template>
   <form id="employee-data" v-on:submit.prevent="formSubmit()">
     <div class="row mb-3">
@@ -122,27 +121,25 @@
                 Edit employee
             </button> -->
   </form>
-  <Table />
 </template>
 
 <script>
 import db from "../firebaseInit";
 import firebase from "firebase";
-// import Table from "./components/Table.vue";
+
 import FileInput from "vue3-simple-file-input";
-import Table from "./Table.vue";
+
 const moment = require("moment");
 export default {
   name: "Form",
   components: {
     FileInput,
-    Table,
   },
-  provide() {
-    return {
-      employeesArray: this.employees,
-    };
-  },
+  // provide() {
+  //   return {
+  //     employeesArray: this.employees,
+  //   };
+  // },
   data() {
     return {
       firstName: "",
@@ -167,7 +164,7 @@ export default {
     };
   },
   watch: {},
-
+  props: {},
   methods: {
     convertPicture() {
       // var image;
@@ -195,7 +192,7 @@ export default {
       console.log(employee.picture);
       this.birthdate = moment(employee.birthdate).format("D MMMM YYYY");
       this.employees.push(employee);
-      console.log(this.employees);
+      // console.log(this.employees);
       //reset the form
       this.firstName = "";
       this.lastName = "";
