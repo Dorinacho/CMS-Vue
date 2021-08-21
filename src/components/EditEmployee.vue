@@ -132,8 +132,7 @@ export default {
   components: {
     FileInput,
   },
-  props: ["id"],
-  // inject: ["employees"],
+
   data() {
     return {
       firstName: "",
@@ -148,7 +147,6 @@ export default {
   watch: {},
   methods: {
     convertPicture() {
-      // var image;
       if (this.picture != null) {
         try {
           const reader = new FileReader();
@@ -190,7 +188,6 @@ export default {
   created() {
     const employeeId = this.$route.params.employeeId;
     console.log(employeeId);
-
     db.collection("employees")
       .doc(employeeId)
       .get()

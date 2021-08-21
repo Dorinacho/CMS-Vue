@@ -2,6 +2,7 @@
   <button v-on:click="goToAddEmployees()" class="btn btn-primary">
     Add employee
   </button>
+  <Filters v-bind:employees="employees" v-on:getEmployees="filterEmployees" />
   <table class="table table-striped table-hover" id="employee-table">
     <thead>
       <tr id="table-head">
@@ -31,11 +32,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        v-for="employee in employees"
-        v-bind:key="employee.id"
-        v-bind:employees="employees"
-      >
+      <tr v-for="employee in employeesCopy" v-bind:key="employee.id">
         <td>
           <img v-bind:src="employee.picture" />
         </td>
@@ -51,13 +48,13 @@
           >
             Delete
           </button>
-          <!-- <delete-employee
-            v-bind:id="employee.id"
-            v-on:click="employeesArray.splice(0, employee.id)"
-          ></delete-employee> -->
-          <button type="button" class="btn btn-primary btn-extra">
+          <router-link
+            v-bind:to="'/edit/' + employee.id"
+            type="button"
+            class="btn btn-primary btn-extra"
+          >
             Edit
-          </button>
+          </router-link>
         </td>
       </tr>
     </tbody>
@@ -67,19 +64,38 @@
 <script>
 import db from "../firebaseInit";
 
+import Filters from "./Filters.vue";
+
 const moment = require("moment");
 export default {
-  components: {},
+  components: {
+    Filters,
+  },
 
   name: "Table",
   data() {
     return {
       employees: [],
+      employeesCopy: [],
     };
   },
   // inject: ["employeesArray"],
-  computed: {},
+  emits: ["getEmployees"],
+  // provide() {
+  //   return {
+  //     employees: this.employees,
+  //   };
+  // },
   methods: {
+    filterEmployees(gender) {
+      // var genderFiltered = this.employees.filter((el) => {
+      //   return el.gender == gender;
+      // });
+      // console.log(genderFiltered);
+      console.log(gender);
+      this.employeesCopy = gender;
+      console.log(this.employeesCopy);
+    },
     goToAddEmployees() {
       this.$router.push("/add");
     },
@@ -107,6 +123,7 @@ export default {
             picture: doc.data().picture,
           };
           this.employees.push(employeeData);
+          this.employeesCopy.push(employeeData);
         });
       })
       .catch((error) => {
@@ -122,17 +139,6 @@ table {
   max-width: 90%;
   min-width: 400px;
 }
-
-/* thead {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-} */
-/* #table-head {
-  width: 200%;
-  display: flex;
-  justify-content: space-around;
-} */
 .row {
   display: flex;
   align-items: center;

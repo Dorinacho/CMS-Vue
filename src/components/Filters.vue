@@ -6,15 +6,20 @@
       </label>
       <div class="col-sm-9">
         <select
+          v-on:change="filterGender()"
           class="form-select"
           id="gender-filter"
           aria-label="Default select example"
-          onchange="filterGender();"
+          v-model="gender"
         >
-          <option value="null">-- select an option --</option>
-          <option value="Male">Male</option>
+          <!-- <option value="null">-- select an option --</option>
+          <option v-bind:value="Male">Male</option>
           <option value="Female">Female</option>
-          <option value="Shemale">Shemale</option>
+          <option value="Shemale">Shemale</option> -->
+
+          <option v-for="value in genders" :value="value" :key="value">{{
+            value
+          }}</option>
         </select>
       </div>
     </div>
@@ -80,6 +85,33 @@
 <script>
 export default {
   name: "Filters",
+  props: ["employees"],
+  data() {
+    return {
+      genders: ["", "Male", "Female", "Shemale"],
+      gender: "",
+    };
+  },
+  methods: {
+    passEmployeesToTable() {
+      this.$$emit(this.employees);
+    },
+    filterGender() {
+      // console.log(this.employees);
+      // console.log(this.gender);
+      //var gender = document.getElementById("gender-filter").value;
+      if (this.gender != "") {
+        var genderFiltered = this.employees.filter((el) => {
+          return el.gender == this.gender;
+        });
+        // console.log(genderFiltered);
+        // this.employees = genderFiltered;
+        this.$emit("get-employees", genderFiltered);
+      } else {
+        this.$emit("get-employees", this.employees);
+      }
+    },
+  },
 };
 </script>
 

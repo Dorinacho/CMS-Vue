@@ -135,11 +135,6 @@ export default {
   components: {
     FileInput,
   },
-  // provide() {
-  //   return {
-  //     employeesArray: this.employees,
-  //   };
-  // },
   data() {
     return {
       firstName: "",
@@ -153,14 +148,14 @@ export default {
         .child("user.png")
         .getDownloadURL()
         .then((url) => {
-          // Or inserted into an <img> element
           this.picture = url;
           // console.log(this.picture);
         })
         .catch((error) => {
-          alert(error);
+          alert("Error getting picture ", error);
         }),
       employees: [],
+      employeeId: this.$route.params.employeeId,
     };
   },
   watch: {},
@@ -168,6 +163,8 @@ export default {
   methods: {
     convertPicture() {
       // var image;
+      // const employeeId = this.$route.params.employeeId;
+      console.log(this.employeeId);
       if (this.picture != null) {
         try {
           const reader = new FileReader();
@@ -207,6 +204,24 @@ export default {
         .collection("employees")
         .doc(employee.email)
         .set(employee);
+    },
+    mounted() {
+      const employeeId = this.$route.params.employeeId;
+      console.log(employeeId);
+      if (employeeId != undefined) {
+        db.collection("employees")
+          .doc(employeeId)
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              this.firstName = doc.data().firstName;
+              this.lastName = doc.data().lastName;
+              this.email = doc.data().email;
+              this.gender = doc.data().gender;
+              this.birthdate = doc.data().birthdate;
+            }
+          });
+      }
     },
   },
 };

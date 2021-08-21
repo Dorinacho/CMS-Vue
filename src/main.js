@@ -21,7 +21,7 @@ const router = createRouter({
             component: AddEmployee
         },
         {
-            path: '/edit',
+            path: '/edit/:employeeId',
             component: EditEmployee
         }
     ],
