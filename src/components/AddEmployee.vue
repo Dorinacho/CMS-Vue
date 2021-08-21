@@ -162,8 +162,6 @@ export default {
   props: {},
   methods: {
     convertPicture() {
-      // var image;
-      // const employeeId = this.$route.params.employeeId;
       console.log(this.employeeId);
       if (this.picture != null) {
         try {
@@ -189,7 +187,6 @@ export default {
       console.log(employee.picture);
       this.birthdate = moment(employee.birthdate).format("D MMMM YYYY");
       this.employees.push(employee);
-      // console.log(this.employees);
       //reset the form
       this.firstName = "";
       this.lastName = "";
@@ -197,8 +194,6 @@ export default {
       this.gender = "";
       this.birthdate = "";
       this.picture = "";
-
-      // localStorage.setItem(employee.email, JSON.stringify(employee));
 
       await db
         .collection("employees")

@@ -6,18 +6,13 @@
       </label>
       <div class="col-sm-9">
         <select
-          v-on:change="filterGender()"
+          v-on:change="filterByGender()"
           class="form-select"
           id="gender-filter"
           aria-label="Default select example"
           v-model="gender"
         >
-          <!-- <option value="null">-- select an option --</option>
-          <option v-bind:value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Shemale">Shemale</option> -->
-
-          <option v-for="value in genders" :value="value" :key="value">{{
+          <option v-for="value in genderFilter" :value="value" :key="value">{{
             value
           }}</option>
         </select>
@@ -29,14 +24,18 @@
       </label>
       <div class="col-sm-9">
         <select
+          v-on:change="filterByPicture()"
+          v-model="picture"
           class="form-select"
           id="picture-filter"
           aria-label="Default select example"
-          onchange="filterPicture();"
         >
-          <option value="null">-- select an option --</option>
+          <!-- <option value="null">-- select an option --</option>
           <option value="picture">Picture</option>
-          <option value="no-picture">No picture</option>
+          <option value="no-picture">No picture</option> -->
+          <option v-for="value in pictureFilter" :value="value" :key="value">{{
+            value
+          }}</option>
         </select>
       </div>
     </div>
@@ -46,6 +45,8 @@
         Start date
       </label>
       <input
+        v-on:change="filterByDate()"
+        v-model="startDate"
         type="date"
         class="col-sm-9"
         id="start-date"
@@ -57,20 +58,14 @@
         End date
       </label>
       <input
+        v-on:change="filterByDate()"
+        v-model="endDate"
         type="date"
         class="col-sm-9"
         id="end-date"
         title="Please choose the end date"
       />
     </div>
-    <button
-      type="submit"
-      class="btn btn-primary btn-extra"
-      id="sort-button"
-      onclick="filterByDate();"
-    >
-      Sort
-    </button>
   </div>
   <button
     type="submit"
@@ -83,32 +78,67 @@
 </template>
 
 <script>
+// const moment = require("moment");
 export default {
   name: "Filters",
   props: ["employees"],
   data() {
     return {
-      genders: ["", "Male", "Female", "Shemale"],
+      genderFilter: ["", "Male", "Female", "Shemale"],
       gender: "",
+      pictureFilter: ["", "picture", "no-picture"],
+      picture: "",
+      startDate: "",
+      endDate: "",
     };
   },
   methods: {
-    passEmployeesToTable() {
-      this.$$emit(this.employees);
-    },
-    filterGender() {
-      // console.log(this.employees);
-      // console.log(this.gender);
-      //var gender = document.getElementById("gender-filter").value;
+    filterByGender() {
       if (this.gender != "") {
         var genderFiltered = this.employees.filter((el) => {
           return el.gender == this.gender;
         });
-        // console.log(genderFiltered);
-        // this.employees = genderFiltered;
-        this.$emit("get-employees", genderFiltered);
+        this.$emit("getEmployees", genderFiltered);
       } else {
-        this.$emit("get-employees", this.employees);
+        this.$emit("getEmployees", this.employees);
+      }
+    },
+    filterByPicture() {
+      if (this.picture != "") {
+        var pictureFiltered = [];
+        // console.log(pictureFiltered);
+        this.$emit("getEmployees", pictureFiltered);
+      } else {
+        this.$emit("getEmployees", this.employees);
+      }
+    },
+    filterByDate() {
+      var dateFilter;
+      var startD = new Date(this.startDate);
+      var endD = new Date(this.endDate);
+      if (this.startDate != "" && this.endDate == "") {
+        dateFilter = this.employees.filter((el) => {
+          var date = new Date(el.birthdate);
+          return date.getTime() >= startD.getTime();
+        });
+        this.$emit("getEmployees", dateFilter);
+      } else if (this.startDate == "" && this.endDate != "") {
+        dateFilter = this.employees.filter((el) => {
+          var date = new Date(el.birthdate);
+          return date.getTime() <= endD.getTime();
+        });
+        this.$emit("getEmployees", dateFilter);
+      } else if (this.startDate != "" && this.endDate != "") {
+        dateFilter = this.employees.filter((el) => {
+          var date = new Date(el.birthdate);
+          return (
+            date.getTime() >= startD.getTime() &&
+            date.getTime() <= endD.getTime()
+          );
+        });
+        this.$emit("getEmployees", dateFilter);
+      } else {
+        this.$emit("getEmployees", this.employees);
       }
     },
   },
@@ -120,7 +150,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 img {

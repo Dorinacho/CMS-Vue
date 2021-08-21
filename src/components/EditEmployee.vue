@@ -122,7 +122,7 @@
 
 <script>
 import db from "../firebaseInit";
-// import firebase from "firebase";
+import firebase from "firebase";
 
 import FileInput from "vue3-simple-file-input";
 
@@ -140,7 +140,18 @@ export default {
       email: "",
       gender: "",
       birthdate: "",
-      picture: "",
+      picture: firebase
+        .storage()
+        .ref()
+        .child("user.png")
+        .getDownloadURL()
+        .then((url) => {
+          this.picture = url;
+          // console.log(this.picture);
+        })
+        .catch((error) => {
+          alert("Error getting picture ", error);
+        }),
       employees: [],
     };
   },

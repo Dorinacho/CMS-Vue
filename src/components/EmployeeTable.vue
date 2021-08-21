@@ -79,33 +79,23 @@ export default {
       employeesCopy: [],
     };
   },
-  // inject: ["employeesArray"],
   emits: ["getEmployees"],
-  // provide() {
-  //   return {
-  //     employees: this.employees,
-  //   };
-  // },
   methods: {
-    filterEmployees(gender) {
-      // var genderFiltered = this.employees.filter((el) => {
-      //   return el.gender == gender;
-      // });
-      // console.log(genderFiltered);
-      console.log(gender);
-      this.employeesCopy = gender;
-      console.log(this.employeesCopy);
+    filterEmployees(data) {
+      this.employeesCopy = data;
+      // console.log(this.employeesCopy);
     },
     goToAddEmployees() {
       this.$router.push("/add");
     },
     deleteEmployee(id) {
-      console.log(id);
+      // console.log(id);
       db.collection("employees")
         .doc(id)
         .delete();
       var employeeIndex = this.employees.find((x) => x.id === id);
       this.employees.splice(this.employees.indexOf(employeeIndex), 1);
+      this.employeesCopy.splice(this.employees.indexOf(employeeIndex), 1);
     },
   },
   created() {
@@ -122,6 +112,7 @@ export default {
             birthdate: moment(doc.data().birthdate).format("D MMMM YYYY"),
             picture: doc.data().picture,
           };
+
           this.employees.push(employeeData);
           this.employeesCopy.push(employeeData);
         });
@@ -129,7 +120,7 @@ export default {
       .catch((error) => {
         alert("Error getting employees ", error);
       });
-    console.log(this.employees);
+    // console.log(this.employees);
   },
 };
 </script>
