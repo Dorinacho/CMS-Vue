@@ -13,7 +13,7 @@ import Employee from './components/Employee.vue'
 const router = createRouter({
     history: createWebHistory(),
     routes: [{
-            path: '/table',
+            path: '',
             component: EmployeeTable
         }, {
             path: '/add',

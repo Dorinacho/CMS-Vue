@@ -199,11 +199,17 @@ export default {
 </script>
 
 <style scoped>
+.form-outline {
+  display: inline-block;
+  width: 200px;
+  margin-bottom: 20px;
+}
 #filters {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  margin: 20px 50px 20px 0;
 }
 
 img {
@@ -224,14 +230,8 @@ img {
 }
 
 #reset-button {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin: 10px 0 20px 0;
   padding: 5px 10px 5px 10px !important;
-}
-
-.sort-btn {
-  margin: 0;
-  padding: 3px 6px;
 }
 
 .sort-btn:hover {

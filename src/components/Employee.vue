@@ -1,4 +1,11 @@
 <template>
+  <button
+    v-on:click="goBack()"
+    type="button"
+    class="btn btn-secondary btn-extra"
+  >
+    Back
+  </button>
   <form id="employee-data" v-on:submit.prevent="formSubmit()">
     <div class="row mb-3">
       <label for="first-name" class="col-sm-3 col-form-label">
@@ -97,7 +104,7 @@
       />
     </div>
     <div class="row mb-3">
-      <label for="picture-upload" class="col-sm-1 col-form-label">
+      <label for="picture-upload" class="col-sm-2 col-form-label">
         Picture
       </label>
       <file-input
@@ -105,7 +112,7 @@
         v-on:change="convertPicture()"
         is-image
         type="file"
-        class="col-sm-5"
+        class=""
         id="picture-upload"
       />
     </div>
@@ -158,6 +165,9 @@ export default {
   watch: {},
   props: {},
   methods: {
+    goBack() {
+      window.history.back();
+    },
     getData() {
       const employeeId = this.$route.params.employeeId;
       console.log(employeeId);
@@ -226,7 +236,7 @@ export default {
 form {
   background-color: rgb(238, 238, 238);
   border-radius: 50px;
-  margin: 50px 0 50px 0;
+  margin: 0 0 50px 0;
   width: 800px;
   max-width: 55%;
   min-width: 500px;
@@ -255,8 +265,10 @@ input:invalid {
   justify-content: center;
   align-items: center;
 }
-
+.btn-extra {
+  margin: 40px;
+}
 button {
-  margin: 20px 40.8% 20px 40.8%;
+  margin: 20px 40.8% 40px 40.8%;
 }
 </style>

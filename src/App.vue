@@ -1,34 +1,27 @@
 <template>
-  <div id="container">
-    <!-- <EmployeeTable /> -->
-  </div>
   <router-view></router-view>
+  <!-- <EmployeeTable /> -->
 </template>
 
 <script>
 // import EmployeeTable from "./components/EmployeeTable.vue";
-
 export default {
   name: "App",
-  components: {
-    // EmployeeTable,
-  },
+  components: {},
 };
 </script>
 
 <style>
-#container {
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 }
-/* #app { */
-/* font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50; */
-/* margin-top: 60px; */
-/* } */
 </style>
