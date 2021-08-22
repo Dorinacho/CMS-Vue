@@ -9,19 +9,19 @@
         <th scope="col">Picture</th>
         <th scope="col">
           First and Last Name
-          <button class="btn sort-btn" onclick="sortTableByName(1);">
+          <button class="btn sort-btn" v-on:click="sortTableByName(1)">
             <i class="fas fa-sort"> </i>
           </button>
         </th>
         <th scope="col">
           Email
-          <button class="btn sort-btn" onclick="sortTableByName(2);">
+          <button class="btn sort-btn" v-on:click="sortTableByName(2)">
             <i class="fas fa-sort"> </i>
           </button>
         </th>
         <th scope="col">
           Sex
-          <button class="btn sort-btn" onclick="sortTableByName(3);">
+          <button class="btn sort-btn" v-on:click="sortTableByName(3)">
             <i class="fas fa-sort"> </i>
           </button>
         </th>
@@ -96,6 +96,50 @@ export default {
       var employeeIndex = this.employees.find((x) => x.id === id);
       this.employees.splice(this.employees.indexOf(employeeIndex), 1);
       this.employeesCopy.splice(this.employees.indexOf(employeeIndex), 1);
+    },
+    sortTableByName(n) {
+      var table,
+        rows,
+        switching,
+        i,
+        x,
+        y,
+        shouldSwitch,
+        dir,
+        switchcount = 0;
+      table = document.getElementById("employee-table");
+      switching = true;
+      dir = "asc";
+      while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 1; i < rows.length - 1; i++) {
+          shouldSwitch = false;
+          x = rows[i].getElementsByTagName("TD")[n];
+          y = rows[i + 1].getElementsByTagName("TD")[n];
+          if (dir == "asc") {
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          switchcount++;
+        } else {
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
     },
   },
   created() {

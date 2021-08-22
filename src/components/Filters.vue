@@ -1,4 +1,16 @@
 <template>
+  <div class="form-outline">
+    <input
+      type="search"
+      id="search-bar"
+      class="form-control"
+      placeholder="Search employee.."
+      aria-label="Search"
+      title="Type in a name"
+      v-on:keyup="searchEmployee()"
+    />
+  </div>
+
   <div id="filters">
     <div class="col-sm-2 filter">
       <label for="gender-filter" class="col-sm-4 col-form-label">
@@ -30,9 +42,6 @@
           id="picture-filter"
           aria-label="Default select example"
         >
-          <!-- <option value="null">-- select an option --</option>
-          <option value="picture">Picture</option>
-          <option value="no-picture">No picture</option> -->
           <option v-for="value in pictureFilter" :value="value" :key="value">{{
             value
           }}</option>
@@ -95,6 +104,24 @@ export default {
     };
   },
   methods: {
+    searchEmployee() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("search-bar");
+      filter = input.value.toUpperCase();
+      table = document.querySelector("tbody");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    },
     filterByGender() {
       if (this.gender != "") {
         var genderFiltered = this.employees.filter((el) => {
@@ -105,9 +132,26 @@ export default {
         this.$emit("getEmployees", this.employees);
       }
     },
+    filterItems(arr, query) {
+      return arr.filter(function(el) {
+        return el.indexOf(query) !== -1;
+        // return el.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      });
+    },
     filterByPicture() {
-      if (this.picture != "") {
-        var pictureFiltered = [];
+      var pictureFiltered;
+      if (this.picture == "no-picture") {
+        pictureFiltered = this.employees.filter((el) => {
+          console.log(el.picture);
+          return el.picture.includes("https");
+        });
+        // console.log(pictureFiltered);
+        this.$emit("getEmployees", pictureFiltered);
+      } else if (this.picture == "picture") {
+        pictureFiltered = this.employees.filter((el) => {
+          console.log(el.picture);
+          return el.picture.includes("base64");
+        });
         // console.log(pictureFiltered);
         this.$emit("getEmployees", pictureFiltered);
       } else {
