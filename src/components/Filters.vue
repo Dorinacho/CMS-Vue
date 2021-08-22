@@ -71,7 +71,7 @@
     type="submit"
     class="btn btn-primary btn-extra"
     id="reset-button"
-    onclick="resetFilters();"
+    v-on:click="resetFilters"
   >
     Reset filters
   </button>
@@ -90,6 +90,8 @@ export default {
       picture: "",
       startDate: "",
       endDate: "",
+      byGender: false,
+      byDate: false,
     };
   },
   methods: {
@@ -140,6 +142,13 @@ export default {
       } else {
         this.$emit("getEmployees", this.employees);
       }
+    },
+    resetFilters() {
+      (this.gender = ""),
+        (this.picture = ""),
+        (this.startDate = ""),
+        (this.endDate = "");
+      this.$emit("getEmployees", this.employees);
     },
   },
 };

@@ -8,8 +8,7 @@ import {
 
 import App from './App.vue'
 import EmployeeTable from './components/EmployeeTable.vue'
-import AddEmployee from './components/AddEmployee.vue'
-import EditEmployee from './components/EditEmployee.vue'
+import Employee from './components/Employee.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -18,11 +17,11 @@ const router = createRouter({
             component: EmployeeTable
         }, {
             path: '/add',
-            component: AddEmployee
+            component: Employee
         },
         {
             path: '/edit/:employeeId',
-            component: EditEmployee
+            component: Employee
         }
     ],
 
