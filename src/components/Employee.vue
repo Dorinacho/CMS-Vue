@@ -97,7 +97,7 @@
       />
     </div>
     <div class="row mb-3">
-      <label for="picture-upload" class="col-sm-2 col-form-label">
+      <label for="picture-upload" class="col-sm-1 col-form-label">
         Picture
       </label>
       <file-input
@@ -105,7 +105,7 @@
         v-on:change="convertPicture()"
         is-image
         type="file"
-        class="col-sm-4"
+        class="col-sm-5"
         id="picture-upload"
       />
     </div>
@@ -117,9 +117,6 @@
     >
       Add employee
     </button>
-    <!-- <button type="submit" class="btn btn-primary" id="add-button" value="Submit">
-                Edit employee
-            </button> -->
   </form>
 </template>
 
@@ -227,10 +224,6 @@ export default {
 
 <style scoped>
 form {
-  /* display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center; */
   background-color: rgb(238, 238, 238);
   border-radius: 50px;
   margin: 50px 0 50px 0;
@@ -257,15 +250,10 @@ input:invalid {
 }
 
 #picture-upload {
-  margin-left: 35px;
   /* margin-left: 35px; */
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-#picture-upload:nth-child(2) {
-  width: 45%;
 }
 
 button {
