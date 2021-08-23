@@ -236,8 +236,8 @@ export default {
   width: 60px;
   height: 60px;
   border: calc(60px / 7) solid transparent;
-  border-right-color: #ff1d5e;
-  border-top-color: #ff1d5e;
+  border-right-color: #0d6efd;
+  border-top-color: #0d6efd;
   border-radius: 50%;
   box-sizing: border-box;
   animation: spring-spinner-animation 3s ease-in-out infinite;
