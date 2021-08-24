@@ -122,7 +122,7 @@
       id="add-button"
       value="submit"
     >
-      Add employee
+      Save
     </button>
   </form>
 </template>
@@ -189,6 +189,7 @@ export default {
     },
     convertPicture() {
       console.log(this.employeeId);
+      console.log(this.picture.file);
       if (this.picture != null) {
         try {
           const reader = new FileReader();

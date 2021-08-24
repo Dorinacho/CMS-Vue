@@ -199,6 +199,7 @@ export default {
         .catch((error) => {
           alert("Error getting employees ", error);
         });
+
       this.loading = false;
     } catch (error) {
       this.loading = false;

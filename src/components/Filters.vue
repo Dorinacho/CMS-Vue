@@ -207,6 +207,7 @@ export default {
 #filters {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   margin: 20px 50px 20px 0;
